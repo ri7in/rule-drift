@@ -6,9 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-### Added
+### Fixed
 
-- Nothing yet.
+- Document exit code 64 in the CLI help summary.
+- Clarify that terminal and CI logs can contain response previews for failed assertions.
 
 ## [0.1.0] - 2026-08-14
 

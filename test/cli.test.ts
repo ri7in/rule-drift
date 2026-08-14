@@ -104,6 +104,7 @@ describe('CLI', () => {
     const help = io();
     await expect(runCli([], help.value)).resolves.toBe(EXIT.success);
     expect(help.output.stdout).toContain('RuleDrift 0.1.0');
+    expect(help.output.stdout).toContain('64 invalid usage');
 
     const version = io();
     await expect(runCli(['--version'], version.value)).resolves.toBe(EXIT.success);

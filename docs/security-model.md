@@ -15,7 +15,7 @@ RuleDrift is a developer tool that sends configured conversations to a configure
 
 ## Data flow
 
-RuleDrift stores no database and sends no telemetry. Prompt and response data lives in process memory during a run. It is written only when the user requests report output; machine report response bodies require `--include-responses`.
+RuleDrift stores no database and sends no telemetry. Prompt and response data lives in process memory during a run. The pretty terminal reporter prints a short response preview when an assertion fails, so captured terminal and CI logs can contain response text. JSON and JUnit reports omit response bodies unless `--include-responses` is passed.
 
 The Ollama adapter sends messages to the configured URL. Setting a non-loopback URL changes the privacy boundary and is an explicit user decision.
 
