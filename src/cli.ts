@@ -87,7 +87,7 @@ Other options:
   -h, --help              Show this help
   -v, --version           Show the version
 
-Exit codes: 0 passed, 1 rule failure, 2 invalid config, 3 adapter/runtime error.
+Exit codes: 0 passed, 1 rule failure, 2 invalid config, 3 adapter/runtime error, 64 invalid usage.
 `;
 
 function valueAfter(args: string[], index: number, option: string): string {
