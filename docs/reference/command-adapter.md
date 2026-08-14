@@ -46,7 +46,7 @@ const content = await callMyAgent(request.messages);
 process.stdout.write(JSON.stringify({ content }));
 ```
 
-A runnable deterministic example is in [`examples/command`](../examples/command/).
+A runnable deterministic example is in [`examples/command`](../../examples/command/).
 
 ## Security
 
