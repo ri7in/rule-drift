@@ -67,6 +67,9 @@ jobs:
 
       - name: Publish to npm with provenance
         run: npm publish "${{ steps.pack.outputs.file }}" --access public --provenance
+        env:
+          # Bootstrap only: remove after npm Trusted Publishing is configured.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to MCP Registry with GitHub OIDC
         shell: bash
