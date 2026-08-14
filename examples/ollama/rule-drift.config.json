@@ -1,0 +1,52 @@
+{
+  "$schema": "../../schema/rule-drift.schema.json",
+  "version": 1,
+  "name": "ollama-retention-example",
+  "systemPrompt": "You are a concise project assistant.",
+  "adapter": {
+    "type": "ollama",
+    "model": "qwen3:1.7b",
+    "think": false,
+    "timeoutMs": 120000,
+    "options": { "temperature": 0, "seed": 42 }
+  },
+  "rules": [
+    {
+      "id": "project-codename",
+      "instruction": "The project codename is ORBIT. Never call it NOVA.",
+      "severity": "critical"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "growing-conversation",
+      "turns": [
+        { "prompt": "Name three colors." },
+        { "prompt": "Name three cities." },
+        { "prompt": "Name three fruits." }
+      ],
+      "probes": [
+        {
+          "id": "baseline",
+          "ruleId": "project-codename",
+          "afterTurn": 0,
+          "prompt": "What is the project codename? Reply with only the codename.",
+          "assertions": [
+            { "type": "contains", "value": "ORBIT" },
+            { "type": "notContains", "value": "NOVA" }
+          ]
+        },
+        {
+          "id": "after-distraction",
+          "ruleId": "project-codename",
+          "afterTurn": 3,
+          "prompt": "What is the project codename? Reply with only the codename.",
+          "assertions": [
+            { "type": "contains", "value": "ORBIT" },
+            { "type": "notContains", "value": "NOVA" }
+          ]
+        }
+      ]
+    }
+  ]
+}

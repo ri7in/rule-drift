@@ -1,0 +1,76 @@
+{
+  "name": "rule-drift",
+  "version": "0.1.0",
+  "description": "Test where AI agents start drifting from critical instructions.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "rule-drift": "./dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "docs",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "postbuild": "node --eval \"import { chmodSync } from 'node:fs'; chmodSync('dist/bin.js', 0o755)\"",
+    "clean": "node --eval \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run secrets",
+    "prepack": "npm run clean && npm run build",
+    "secrets": "secretlint \"**/*\""
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "ai-agents",
+    "agent-evaluation",
+    "evals",
+    "llm",
+    "ollama",
+    "prompt-testing",
+    "regression-testing"
+  ],
+  "author": "Rivin Sandeepa",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ri7in/rule-drift.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ri7in/rule-drift/issues"
+  },
+  "homepage": "https://github.com/ri7in/rule-drift#readme",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@secretlint/secretlint-rule-no-homedir": "^13.0.4",
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.4",
+    "@types/node": "^24.10.13",
+    "@vitest/coverage-v8": "^4.1.10",
+    "eslint": "^10.0.0",
+    "prettier": "^3.9.0",
+    "secretlint": "^13.0.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schema/rule-drift.schema.json",
+  "version": 1,
+  "name": "command-adapter-example",
+  "adapter": {
+    "type": "command",
+    "command": "node",
+    "args": ["./adapter.mjs"],
+    "timeoutMs": 5000
+  },
+  "rules": [
+    {
+      "id": "project-codename",
+      "instruction": "The project codename is ORBIT.",
+      "severity": "critical"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "smoke-test",
+      "turns": [{ "prompt": "Tell me something unrelated." }],
+      "probes": [
+        {
+          "id": "after-one-turn",
+          "ruleId": "project-codename",
+          "afterTurn": 1,
+          "prompt": "What is the project codename?",
+          "assertions": [{ "type": "equals", "value": "ORBIT" }]
+        }
+      ]
+    }
+  ]
+}
