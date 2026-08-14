@@ -1,0 +1,37 @@
+# Security model
+
+RuleDrift is a developer tool that sends configured conversations to a configured target. Its safest default is local execution without telemetry.
+
+## Trust boundaries
+
+| Boundary        | RuleDrift does                                                  | User must do                                                    |
+| --------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| Configuration   | Validates structure and limits.                                 | Review rules, prompts, commands, and URLs before running.       |
+| Ollama          | Defaults to loopback and uses explicit HTTP requests.           | Trust the configured Ollama endpoint and model.                 |
+| Command adapter | Disables shell expansion; limits time/output.                   | Treat the command as trusted executable code.                   |
+| Reports         | Omits response bodies from JSON/JUnit by default.               | Protect reports if responses or prompts contain sensitive data. |
+| CI              | Reference CI uses a deterministic adapter and no model secrets. | Do not add provider keys to fork-triggered workflows.           |
+
+## Data flow
+
+RuleDrift stores no database and sends no telemetry. Prompt and response data lives in process memory during a run. It is written only when the user requests report output; machine report response bodies require `--include-responses`.
+
+The Ollama adapter sends messages to the configured URL. Setting a non-loopback URL changes the privacy boundary and is an explicit user decision.
+
+## Process safety
+
+The command adapter is not a sandbox. It runs with the current user's filesystem and environment permissions. Timeout and output limits protect availability, not confidentiality or code execution.
+
+Subprocess stderr and HTTP error bodies are stripped of ANSI control sequences, truncated, and checked for common credential assignments and bearer tokens. Unknown secret formats can still pass through, so adapters must avoid logging credentials.
+
+## Supply chain
+
+- The published package has zero runtime dependencies.
+- CI actions are pinned to full commit SHAs.
+- Releases run the full quality gate and package smoke test.
+- npm Trusted Publishing/provenance is required for public publication.
+- The repository is scanned for common secret patterns before release.
+
+## Out of scope
+
+RuleDrift does not prevent prompt injection, enforce production policy, sandbox agents, or prove safety. It detects configured output-level rule regressions in configured scenarios.

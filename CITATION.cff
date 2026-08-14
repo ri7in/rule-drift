@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: 'If you use RuleDrift in published work, please cite the software.'
+title: 'RuleDrift'
+type: software
+authors:
+  - family-names: 'Sandeepa'
+    given-names: 'Rivin'
+version: 0.1.0
+url: 'https://github.com/ri7in/rule-drift'
+license: MIT
