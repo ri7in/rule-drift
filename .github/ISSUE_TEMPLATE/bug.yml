@@ -1,0 +1,57 @@
+name: Bug report
+description: Report reproducible RuleDrift behavior that appears incorrect
+title: 'bug: '
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, private prompts, or unredacted reports. Security issues belong in private vulnerability reporting.
+  - type: input
+    id: version
+    attributes:
+      label: RuleDrift version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node.js and operating system
+      placeholder: Node 22.22.0, macOS 15 arm64
+    validations:
+      required: true
+  - type: dropdown
+    id: adapter
+    attributes:
+      label: Adapter
+      options: [Command, Ollama, Not adapter-related]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include a reduced non-sensitive config and exact command.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I removed secrets and private prompt/response data.
+          required: true
+        - label: I searched existing issues.
+          required: true

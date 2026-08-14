@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2
+        with:
+          egress-policy: audit
+
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm audit
+
+  package-smoke:
+    name: Package smoke test
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2
+        with:
+          egress-policy: audit
+
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Exercise repository examples
+        run: |
+          npm run build
+          node dist/bin.js validate --config examples/command/rule-drift.config.json
+          node dist/bin.js test --config examples/command/rule-drift.config.json
+
+      - name: Install and exercise packed package
+        shell: bash
+        run: |
+          package_file=$(npm pack --pack-destination "$RUNNER_TEMP" --silent)
+          smoke_dir="$RUNNER_TEMP/rule-drift-smoke"
+          mkdir "$smoke_dir"
+          cd "$smoke_dir"
+          npm init --yes >/dev/null
+          npm install "$RUNNER_TEMP/$package_file"
+          npx rule-drift --version
+          npx rule-drift init
+          npx rule-drift validate
