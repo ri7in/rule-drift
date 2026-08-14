@@ -11,6 +11,13 @@ updates:
     groups:
       development-dependencies:
         dependency-type: development
+    ignore:
+      # Keep the compiler and type definitions aligned with the supported
+      # typescript-eslint and Node.js 22/24 toolchain.
+      - dependency-name: typescript
+        versions: ['>= 7.0.0']
+      - dependency-name: '@types/node'
+        versions: ['>= 25.0.0']
 
   - package-ecosystem: github-actions
     directory: '/'
