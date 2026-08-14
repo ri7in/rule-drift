@@ -1,6 +1,6 @@
 # Configuration
 
-RuleDrift configuration is JSON because the file doubles as a reviewed test contract. Version `1` is described by [`schema/rule-drift.schema.json`](../schema/rule-drift.schema.json).
+RuleDrift configuration is JSON because the file doubles as a reviewed test contract. Version `1` is described by [`schema/rule-drift.schema.json`](../../schema/rule-drift.schema.json).
 
 ## Suite fields
 

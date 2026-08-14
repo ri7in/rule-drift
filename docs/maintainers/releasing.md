@@ -1,4 +1,4 @@
-# Release process
+# Releasing
 
 RuleDrift uses Semantic Versioning and keeps human-readable changes in `CHANGELOG.md`.
 
