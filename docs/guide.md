@@ -101,6 +101,7 @@ See the [configuration reference](reference/configuration.md) for the complete f
 rule-drift init [--config PATH] [--force]
 rule-drift validate [--config PATH]
 rule-drift test [--config PATH] [--reporter pretty|json|junit]
+rule-drift mcp [--root PATH]
 ```
 
 Useful test options:
@@ -138,23 +139,26 @@ RuleDrift includes two adapters:
 
 The command adapter makes RuleDrift model- and framework-independent. Read [Connect an existing agent](reference/command-adapter.md) or try [`../examples/command`](../examples/command/).
 
+## MCP server
+
+The optional stdio MCP server lets a compatible AI coding client validate or run the same suites on request. It does not run on every LLM call. See the [MCP setup guide](mcp.md).
+
 ## Privacy and cost
 
 - No telemetry or network call exists outside the configured adapter.
 - Machine-readable reports omit response bodies unless `--include-responses` is passed.
 - Error details redact common token and password patterns and are length-limited.
 - CI uses a deterministic fake adapter and never downloads a model.
-- RuleDrift has zero runtime npm dependencies.
+- The evaluator itself needs no hosted service or paid model API. MCP support uses the official open-source MCP SDK.
 
 Read the [security model](security-model.md) for trust boundaries and limitations.
 
 ## Project status
 
-RuleDrift is preparing its first `0.1.0` public release. Configuration and report schemas are versioned, but pre-1.0 versions may refine them with changelog and migration notes.
+RuleDrift `0.1.0` is the first public release. Configuration and report schemas are versioned, but pre-1.0 versions may refine them with changelog and migration notes.
 
 Possible work after v0.1:
 
-- MCP server mode;
 - agent trace import;
 - context-compaction and handoff fixtures;
 - SARIF output for code-hosting annotations.

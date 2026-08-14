@@ -4,11 +4,11 @@ import { createAdapter } from './adapters/index.js';
 import { DEFAULT_CONFIG_FILE, loadConfig } from './config.js';
 import { RuleDriftError, UsageError, errorMessage } from './errors.js';
 import { createExampleConfig } from './init.js';
+import { serveRuleDriftMcp } from './mcp.js';
 import { formatReport } from './reporters/index.js';
 import type { Reporter } from './reporters/index.js';
 import { runSuite } from './runner.js';
-
-const VERSION = '0.1.0';
+import { VERSION } from './version.js';
 
 export const EXIT = {
   success: 0,
@@ -46,11 +46,17 @@ interface ValidateArguments {
   config: string;
 }
 
+interface McpArguments {
+  command: 'mcp';
+  root: string;
+}
+
 interface StaticArguments {
   command: 'help' | 'version';
 }
 
-type CliArguments = InitArguments | StaticArguments | TestArguments | ValidateArguments;
+type CliArguments =
+  InitArguments | McpArguments | StaticArguments | TestArguments | ValidateArguments;
 
 const HELP = `RuleDrift ${VERSION} — catch the moment an AI agent drifts from its rules.
 
@@ -58,11 +64,13 @@ Usage:
   rule-drift init [--config PATH] [--force]
   rule-drift validate [--config PATH]
   rule-drift test [--config PATH] [--reporter pretty|json|junit] [--output PATH]
+  rule-drift mcp [--root PATH]
 
 Commands:
   init       Create an explained starter configuration
   validate   Validate configuration without calling an agent
   test       Run every scenario and rule probe
+  mcp        Serve validate_suite and run_suite over MCP stdio
 
 Test options:
   -c, --config PATH       Configuration file (default: ${DEFAULT_CONFIG_FILE})
@@ -71,6 +79,9 @@ Test options:
       --include-responses Include raw model responses in JSON/JUnit reports
       --no-color          Disable terminal colors
   -q, --quiet             Suppress normal output
+
+MCP options:
+      --root PATH         Restrict configuration access to this directory (default: .)
 
 Other options:
   -h, --help              Show this help
@@ -134,6 +145,20 @@ export function parseArguments(args: string[], isTty = false): CliArguments {
       index += common.consumed;
     }
     return { command, config };
+  }
+
+  if (command === 'mcp') {
+    let root = '.';
+    for (let index = 1; index < args.length; index += 1) {
+      const argument = args[index];
+      if (argument === '--root') {
+        root = valueAfter(args, index, argument);
+        index += 1;
+      } else {
+        throw new UsageError(`Unknown mcp option: ${String(argument)}`);
+      }
+    }
+    return { command, root };
   }
 
   if (command === 'test') {
@@ -225,6 +250,9 @@ export async function runCli(
         );
         return EXIT.success;
       }
+      case 'mcp':
+        await serveRuleDriftMcp({ root: parsed.root });
+        return EXIT.success;
       case 'test': {
         const loaded = await loadConfig(parsed.config);
         const adapter = createAdapter(loaded.config.adapter, loaded.baseDir);

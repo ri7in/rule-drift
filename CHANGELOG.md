@@ -8,9 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- Initial private development scaffold.
+- Nothing yet.
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-08-14
 
 ### Added
 
@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Multi-turn scenarios with isolated rule probes.
 - Contains, excludes, exact, and regular-expression assertions.
 - Local Ollama and generic JSON-over-stdio command adapters.
+- Local stdio MCP server with explicit validation and run tools.
 - Pretty terminal, redacted JSON, and JUnit reports.
 - Stable exit codes for assertion, configuration, and adapter failures.
 - Strict TypeScript build, automated tests, coverage gates, CI, security guidance, and release workflow.

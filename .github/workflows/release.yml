@@ -30,13 +30,28 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-          cache: npm
 
       - run: npm ci
       - run: npm run check
 
       - name: Verify tag matches package version
-        run: node --eval "if ('v' + require('./package.json').version !== process.env.GITHUB_REF_NAME) process.exit(1)"
+        run: |
+          npm run versions
+          node --eval "if ('v' + require('./package.json').version !== process.env.GITHUB_REF_NAME) process.exit(1)"
+
+      - name: Install verified MCP Registry publisher
+        shell: bash
+        run: |
+          archive="$RUNNER_TEMP/mcp-publisher.tar.gz"
+          curl --fail --location --silent --show-error \
+            https://github.com/modelcontextprotocol/registry/releases/download/v1.7.9/mcp-publisher_linux_amd64.tar.gz \
+            --output "$archive"
+          echo "ab128162b0616090b47cf245afe0a23f3ef08936fdce19074f5ba0a4469281ac  $archive" | sha256sum --check
+          tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP" mcp-publisher
+
+      - name: Validate MCP Registry manifest
+        run: |
+          "$RUNNER_TEMP/mcp-publisher" validate
 
       - name: Create package archive
         id: pack
@@ -51,7 +66,21 @@ jobs:
           subject-path: ${{ steps.pack.outputs.file }}
 
       - name: Publish to npm with provenance
-        run: npm publish --access public --provenance
+        run: npm publish "${{ steps.pack.outputs.file }}" --access public --provenance
+
+      - name: Publish to MCP Registry with GitHub OIDC
+        shell: bash
+        run: |
+          "$RUNNER_TEMP/mcp-publisher" login github-oidc
+          for attempt in 1 2 3 4 5; do
+            if "$RUNNER_TEMP/mcp-publisher" publish; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then
+              sleep 10
+            fi
+          done
+          exit 1
 
       - name: Create GitHub release
         env:
