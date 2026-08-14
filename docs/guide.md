@@ -155,7 +155,7 @@ Read the [security model](security-model.md) for trust boundaries and limitation
 
 ## Project status
 
-RuleDrift `0.1.0` is the first public release. Configuration and report schemas are versioned, but pre-1.0 versions may refine them with changelog and migration notes.
+RuleDrift `0.1.1` is the current patch release. Configuration and report schemas are versioned, but pre-1.0 versions may refine them with changelog and migration notes.
 
 Possible work after v0.1:
 

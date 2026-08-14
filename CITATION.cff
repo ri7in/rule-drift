@@ -5,6 +5,6 @@ type: software
 authors:
   - family-names: 'Sandeepa'
     given-names: 'Rivin'
-version: 0.1.0
+version: 0.1.1
 url: 'https://github.com/ri7in/rule-drift'
 license: MIT

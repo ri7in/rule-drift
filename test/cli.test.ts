@@ -103,12 +103,12 @@ describe('CLI', () => {
   it('shows help/version and maps usage errors to stable exit codes', async () => {
     const help = io();
     await expect(runCli([], help.value)).resolves.toBe(EXIT.success);
-    expect(help.output.stdout).toContain('RuleDrift 0.1.0');
+    expect(help.output.stdout).toContain('RuleDrift 0.1.1');
     expect(help.output.stdout).toContain('64 invalid usage');
 
     const version = io();
     await expect(runCli(['--version'], version.value)).resolves.toBe(EXIT.success);
-    expect(version.output.stdout).toBe('0.1.0\n');
+    expect(version.output.stdout).toBe('0.1.1\n');
 
     const invalid = io();
     await expect(runCli(['unknown'], invalid.value)).resolves.toBe(EXIT.usage);

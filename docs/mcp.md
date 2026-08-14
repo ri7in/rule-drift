@@ -24,7 +24,7 @@ Use this server entry in a client that supports local stdio MCP servers:
 
 Put `rule-drift.config.json` inside that project. The tools use it by default, or may select another configuration inside the same root.
 
-For a version-pinned setup, replace `rule-drift` with `rule-drift@0.1.0`.
+For a version-pinned setup, replace `rule-drift` with `rule-drift@0.1.1`.
 
 ## Cost and privacy
 
