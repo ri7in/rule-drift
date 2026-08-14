@@ -81,3 +81,6 @@ jobs:
           npx rule-drift --version
           npx rule-drift init
           npx rule-drift validate
+          node "$GITHUB_WORKSPACE/scripts/mcp-smoke.mjs" \
+            "$smoke_dir/node_modules/.bin/rule-drift" \
+            "$smoke_dir/node_modules/rule-drift/examples/command"

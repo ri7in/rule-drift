@@ -62,6 +62,10 @@ describe('CLI', () => {
       command: 'validate',
       config: 'suite.json',
     });
+    expect(parseArguments(['mcp', '--root', 'workspace'])).toEqual({
+      command: 'mcp',
+      root: 'workspace',
+    });
     expect(
       parseArguments([
         'test',
@@ -90,6 +94,7 @@ describe('CLI', () => {
     expect(() => parseArguments(['unknown'])).toThrowError(/Unknown command/u);
     expect(() => parseArguments(['init', '--wat'])).toThrowError(/Unknown init option/u);
     expect(() => parseArguments(['validate', '--wat'])).toThrowError(/Unknown validate option/u);
+    expect(() => parseArguments(['mcp', '--wat'])).toThrowError(/Unknown mcp option/u);
     expect(() => parseArguments(['test', '--wat'])).toThrowError(/Unknown test option/u);
     expect(() => parseArguments(['test', '--reporter', 'html'])).toThrowError(/must be pretty/u);
     expect(() => parseArguments(['test', '--config'])).toThrowError(/requires a value/u);

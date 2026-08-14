@@ -3,7 +3,7 @@
 RuleDrift separates agent execution from deterministic evaluation.
 
 ```text
-config loader ──> scenario runner ──> adapter ──> target agent/model
+CLI / MCP ──> config loader ──> scenario runner ──> adapter ──> target agent/model
                        │
                        ├── background conversation state
                        └── isolated probe snapshots
@@ -22,6 +22,7 @@ config loader ──> scenario runner ──> adapter ──> target agent/model
 - **Adapters:** translate the common message protocol into either local Ollama HTTP or a subprocess contract.
 - **Assertion engine:** applies deterministic string and regular-expression checks. No second LLM judges the first LLM.
 - **Reporters:** consume one versioned internal report. JSON/JUnit redact raw responses by default.
+- **MCP server:** exposes explicit validate/run tools over stdio, confines config paths to one workspace root, and reuses the same loader and runner as the CLI.
 
 ## Failure classes
 
@@ -39,6 +40,6 @@ RuleDrift makes scenarios, probes, assertion logic, adapter identity, timing, an
 
 ## Public API
 
-The npm package exports the config parser, adapters, runner, assertions, reporters, and TypeScript types. The CLI is a thin composition layer over those exports.
+The npm package exports the config parser, adapters, runner, assertions, reporters, MCP server, and TypeScript types. The CLI is a thin composition layer over those exports.
 
 The config and report objects each carry version `1`. Breaking schema changes require a new schema version and migration notes even before package `1.0.0`.

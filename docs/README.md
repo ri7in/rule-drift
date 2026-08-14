@@ -6,6 +6,7 @@ Start with the [full guide](guide.md) for setup, examples, commands, and expecte
 
 - [Configuration](reference/configuration.md)
 - [Command adapter protocol](reference/command-adapter.md)
+- [MCP setup](mcp.md)
 
 ## Design and safety
 

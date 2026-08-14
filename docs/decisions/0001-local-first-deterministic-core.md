@@ -15,6 +15,6 @@ The core has no hosted service and no paid provider dependency. Real-model examp
 
 - A user can run the complete reference workflow offline after downloading a model.
 - CI needs no model, account, or secret.
-- The package has no runtime npm dependencies.
+- Runtime dependencies are limited to the official MCP SDK and its schema library.
 - Semantic grading and hosted dashboards are outside v0.1.
 - Some useful agent behaviours cannot be judged until the user expresses them as observable assertions.

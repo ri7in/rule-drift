@@ -1,12 +1,17 @@
 {
   "name": "rule-drift",
   "version": "0.1.0",
-  "description": "Test where AI agents start drifting from critical instructions.",
+  "description": "Test whether AI agents retain critical instructions as conversations grow.",
+  "mcpName": "io.github.ri7in/rule-drift",
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp.d.ts",
+      "import": "./dist/mcp.js"
     }
   },
   "bin": {
@@ -17,6 +22,7 @@
     "schema",
     "docs",
     "examples",
+    "server.json",
     "README.md",
     "LICENSE"
   ],
@@ -29,10 +35,13 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "pretest": "npm run build",
+    "pretest:coverage": "npm run build",
     "typecheck": "tsc --project tsconfig.json --noEmit",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run secrets",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run versions && npm run secrets",
     "prepack": "npm run clean && npm run build",
-    "secrets": "secretlint \"**/*\""
+    "secrets": "secretlint \"**/*\"",
+    "versions": "node scripts/verify-metadata.mjs"
   },
   "engines": {
     "node": ">=22"
@@ -42,6 +51,7 @@
     "agent-evaluation",
     "evals",
     "llm",
+    "mcp",
     "ollama",
     "prompt-testing",
     "regression-testing"
@@ -62,6 +72,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@modelcontextprotocol/client": "^2.0.0",
     "@secretlint/secretlint-rule-no-homedir": "^13.0.4",
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.4",
     "@types/node": "^24.10.13",
@@ -72,5 +83,9 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.67.0",
     "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.4.3"
   }
 }

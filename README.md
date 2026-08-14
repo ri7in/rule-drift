@@ -18,14 +18,23 @@ npx rule-drift init
 npx rule-drift test
 ```
 
-No paid API, account, backend, telemetry, or runtime npm dependency is required.
+No paid model API, account, backend, or telemetry is required.
 
 ## What you get
 
 - The first conversation point where a rule fails
 - Terminal, JSON, and JUnit reports
 - Local Ollama and bring-your-own-agent support
+- Optional MCP tools for AI coding clients
 - Stable exit codes for CI
+
+## MCP
+
+```bash
+npx -y rule-drift mcp --root /path/to/your/project
+```
+
+See the [MCP setup guide](docs/mcp.md) for client configuration and safety details.
 
 ## Documentation
 
