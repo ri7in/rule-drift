@@ -27,3 +27,17 @@ Never publish a private npm package: private npm hosting is outside RuleDrift's 
 6. Verify npm provenance, the GitHub release, MCP Registry discovery, and a clean `npx rule-drift --version` install.
 
 The workflow refuses to publish while the GitHub repository is private.
+
+## Temporarily making the repository private
+
+Making the GitHub repository private after a public release does not retract an already-public npm package or MCP Registry version. It does hide the source, GitHub release assets, issues, and repository-hosted documentation from unauthenticated users. Source and provenance links may therefore lead to a `404` while the repository is private.
+
+Before announcing the project again:
+
+1. Change the GitHub repository visibility back to public.
+2. Verify the repository, tagged release, and documentation from a logged-out browser or unauthenticated request.
+3. Manually run CI and CodeQL, because changing visibility does not create a new push event.
+4. Confirm npm still marks the intended version as `latest` and still exposes provenance.
+5. Confirm the official MCP Registry marks the intended version as active and latest.
+
+Do not republish an unchanged npm version. npm versions are immutable, and the existing package remains usable while the source repository is temporarily private.

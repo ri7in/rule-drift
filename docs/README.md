@@ -11,6 +11,7 @@ Start with the [full guide](guide.md) for setup, examples, commands, and expecte
 ## Design and safety
 
 - [Architecture](architecture.md)
+- [Build retrospective and verification record](retrospective.md)
 - [Security model](security-model.md)
 - [Architecture decision records](decisions/0001-local-first-deterministic-core.md)
 
