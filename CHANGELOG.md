@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- Nothing yet.
+- A technical build retrospective, independent verification record, and temporary-visibility operations guide.
 
 ## [0.1.1] - 2026-08-14
 
