@@ -76,13 +76,13 @@
     "@secretlint/secretlint-rule-no-homedir": "^13.0.4",
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.4",
     "@types/node": "^24.10.13",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^5.0.0",
     "eslint": "^10.0.0",
     "prettier": "^3.9.0",
     "secretlint": "^13.0.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.67.0",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.0.0",
